@@ -100,22 +100,19 @@ const routes = [
     id: 'historical' as RouteType,
     name: 'Исторический маршрут',
     description: 'Узнай историю Жлобина через важные памятники и места',
-    icon: 'Landmark',
-    color: 'from-purple-500 to-pink-500'
+    icon: 'Landmark'
   },
   {
     id: 'cultural' as RouteType,
     name: 'Культурный маршрут',
     description: 'Познакомься с культурным наследием города',
-    icon: 'Palette',
-    color: 'from-pink-500 to-orange-500'
+    icon: 'Palette'
   },
   {
     id: 'natural' as RouteType,
     name: 'Природный маршрут',
     description: 'Изучи природные красоты Жлобина',
-    icon: 'Trees',
-    color: 'from-blue-500 to-cyan-500'
+    icon: 'Trees'
   }
 ];
 
@@ -179,22 +176,22 @@ export default function Index() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 via-pink-50 to-blue-100">
+    <div className="min-h-screen bg-background">
       {screen === 'welcome' && (
         <div className="min-h-screen flex items-center justify-center p-4">
-          <Card className="max-w-2xl w-full p-8 md:p-12 text-center animate-fade-in shadow-2xl">
+          <Card className="max-w-2xl w-full p-8 md:p-12 text-center animate-fade-in shadow-md border">
             <div className="mb-6">
-              <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent mb-4">
-                🏛️ Город Жлобин
+              <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-4">
+                Город Жлобин
               </h1>
-              <p className="text-2xl md:text-3xl font-semibold text-gray-700">как игра</p>
+              <p className="text-2xl md:text-3xl font-semibold text-muted-foreground">как игра</p>
             </div>
             
             <div className="mb-8 space-y-4">
-              <p className="text-lg text-gray-600 leading-relaxed">
-                Добро пожаловать в игру <span className="font-semibold">"Город Жлобин как игра"</span>! 
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                Добро пожаловать в игру <span className="font-semibold text-foreground">"Город Жлобин как игра"</span>! 
               </p>
-              <p className="text-lg text-gray-600 leading-relaxed">
+              <p className="text-lg text-muted-foreground leading-relaxed">
                 Пройди по маршруту достопримечательностей, выполняй задания и узнай, насколько хорошо ты знаешь свой город!
               </p>
             </div>
@@ -202,7 +199,7 @@ export default function Index() {
             <Button 
               onClick={startGame}
               size="lg"
-              className="text-xl px-12 py-6 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 transform hover:scale-105 transition-all shadow-lg"
+              className="text-xl px-12 py-6 bg-foreground text-background hover:bg-foreground/90 shadow-md"
             >
               <Icon name="Play" className="mr-2" size={24} />
               Начать игру
@@ -214,10 +211,10 @@ export default function Index() {
       {screen === 'route-select' && (
         <div className="min-h-screen flex items-center justify-center p-4">
           <div className="max-w-5xl w-full animate-slide-up">
-            <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 text-gray-800">
+            <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 text-foreground">
               Выбери маршрут
             </h2>
-            <p className="text-center text-gray-600 mb-12 text-lg">
+            <p className="text-center text-muted-foreground mb-12 text-lg">
               Каждый маршрут откроет новые грани города Жлобина
             </p>
             
@@ -225,15 +222,15 @@ export default function Index() {
               {routes.map((route) => (
                 <Card 
                   key={route.id}
-                  className="p-6 cursor-pointer transform hover:scale-105 transition-all hover:shadow-xl"
+                  className="p-6 cursor-pointer hover:shadow-md transition-all border"
                   onClick={() => selectRoute(route.id)}
                 >
-                  <div className={`h-32 rounded-lg bg-gradient-to-br ${route.color} flex items-center justify-center mb-4`}>
-                    <Icon name={route.icon as any} size={64} className="text-white" />
+                  <div className="h-32 rounded-xl bg-muted flex items-center justify-center mb-4 border">
+                    <Icon name={route.icon as any} size={64} className="text-foreground" />
                   </div>
-                  <h3 className="text-2xl font-bold mb-3 text-gray-800">{route.name}</h3>
-                  <p className="text-gray-600 mb-4">{route.description}</p>
-                  <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-200">
+                  <h3 className="text-2xl font-bold mb-3 text-foreground">{route.name}</h3>
+                  <p className="text-muted-foreground mb-4">{route.description}</p>
+                  <Badge variant="secondary">
                     {landmarks.filter(l => l.route === route.id).length} точек
                   </Badge>
                 </Card>
@@ -247,80 +244,88 @@ export default function Index() {
         <div className="min-h-screen p-4 md:p-8">
           <div className="max-w-6xl mx-auto">
             <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
-              <div className="flex items-center gap-4">
-                <Button 
-                  variant="outline" 
-                  onClick={() => setScreen('route-select')}
-                  className="gap-2"
-                >
-                  <Icon name="ArrowLeft" size={20} />
-                  Назад
-                </Button>
-                <Badge className="text-lg px-4 py-2 bg-gradient-to-r from-yellow-400 to-orange-500">
-                  <Icon name="Star" size={20} className="mr-2" />
-                  Очки: {score}
-                </Badge>
+              <div>
+                <h2 className="text-3xl font-bold text-foreground mb-2">
+                  {routes.find(r => r.id === selectedRoute)?.name}
+                </h2>
+                <p className="text-muted-foreground">
+                  Точка {currentLandmarkIndex + 1} из {routeLandmarks.length}
+                </p>
               </div>
-              <Badge className="text-lg px-4 py-2 bg-purple-100 text-purple-700">
-                Точка {currentLandmarkIndex + 1} из {routeLandmarks.length}
+              <Badge variant="default" className="text-lg px-4 py-2">
+                <Icon name="Trophy" className="mr-2" size={20} />
+                Очки: {score}
               </Badge>
             </div>
 
-            <Card className="p-6 md:p-8 animate-scale-in">
-              <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">
-                🗺 Карта маршрута
-              </h2>
-              
-              <div className="relative bg-gradient-to-br from-blue-100 to-green-100 rounded-2xl p-8 mb-6 min-h-[400px] border-4 border-blue-200">
-                {routeLandmarks.map((landmark, index) => (
-                  <div
-                    key={landmark.id}
-                    className={`absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all ${
-                      index === currentLandmarkIndex 
-                        ? 'scale-125 z-10' 
-                        : index < currentLandmarkIndex 
-                        ? 'opacity-50' 
-                        : ''
-                    }`}
-                    style={{ left: `${landmark.x}%`, top: `${landmark.y}%` }}
-                    onClick={() => index === currentLandmarkIndex && openTask()}
-                  >
-                    <div className={`
-                      w-16 h-16 rounded-full flex items-center justify-center text-2xl shadow-lg
-                      ${index === currentLandmarkIndex 
-                        ? 'bg-gradient-to-r from-purple-500 to-pink-500 animate-pulse' 
-                        : index < currentLandmarkIndex
-                        ? 'bg-green-500'
-                        : 'bg-gray-300'
-                      }
-                    `}>
-                      {index < currentLandmarkIndex ? '✓' : index + 1}
-                    </div>
-                    {index === currentLandmarkIndex && (
-                      <div className="absolute top-full mt-2 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
-                        <Badge className="bg-white text-gray-800 shadow-lg">
-                          {landmark.name}
-                        </Badge>
+            <Card className="p-6 mb-6 border shadow-sm">
+              <div className="relative w-full h-96 bg-muted rounded-xl overflow-hidden border">
+                {routeLandmarks.map((landmark, index) => {
+                  const isVisited = index < currentLandmarkIndex;
+                  const isCurrent = index === currentLandmarkIndex;
+                  
+                  return (
+                    <div
+                      key={landmark.id}
+                      className={`absolute transform -translate-x-1/2 -translate-y-1/2 transition-all ${
+                        isCurrent ? 'z-10' : 'z-0'
+                      }`}
+                      style={{
+                        left: `${landmark.x}%`,
+                        top: `${landmark.y}%`
+                      }}
+                    >
+                      <div
+                        className={`w-12 h-12 rounded-full flex items-center justify-center border-2 transition-all ${
+                          isCurrent
+                            ? 'bg-foreground text-background border-foreground shadow-md scale-125'
+                            : isVisited
+                            ? 'bg-muted text-foreground border-border'
+                            : 'bg-background text-muted-foreground border-border'
+                        }`}
+                      >
+                        {isVisited ? (
+                          <Icon name="Check" size={20} />
+                        ) : (
+                          <Icon name="MapPin" size={20} />
+                        )}
                       </div>
-                    )}
-                  </div>
-                ))}
+                      {isCurrent && (
+                        <div className="absolute top-14 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+                          <Badge variant="default" className="shadow-sm">
+                            {landmark.name}
+                          </Badge>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
+            </Card>
 
-              <div className="text-center">
-                <h3 className="text-2xl font-bold mb-3 text-gray-800">
-                  {currentLandmark.name}
-                </h3>
-                <p className="text-gray-600 mb-6">{currentLandmark.description}</p>
-                <Button 
-                  onClick={openTask}
-                  size="lg"
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-lg px-8"
-                >
-                  <Icon name="Play" className="mr-2" />
-                  Начать задание
-                </Button>
+            <Card className="p-6 border shadow-sm">
+              <div className="flex items-start gap-4 mb-4">
+                <div className="p-3 bg-muted rounded-xl border">
+                  <Icon name="MapPin" size={32} className="text-foreground" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-2xl font-bold text-foreground mb-2">
+                    {currentLandmark.name}
+                  </h3>
+                  <p className="text-muted-foreground">
+                    {currentLandmark.description}
+                  </p>
+                </div>
               </div>
+              
+              <Button 
+                onClick={openTask}
+                size="lg"
+                className="w-full bg-foreground text-background hover:bg-foreground/90 shadow-sm"
+              >
+                <Icon name="Play" className="mr-2" size={20} />
+                Начать задание
+              </Button>
             </Card>
           </div>
         </div>
@@ -328,109 +333,125 @@ export default function Index() {
 
       {screen === 'task' && currentLandmark && (
         <div className="min-h-screen flex items-center justify-center p-4">
-          <Card className="max-w-3xl w-full p-8 animate-scale-in">
-            <div className="flex justify-between items-start mb-6">
-              <div className="flex-1">
-                <Badge className="mb-3 bg-purple-100 text-purple-700">
-                  Вопрос {currentLandmarkIndex + 1} из {routeLandmarks.length}
-                </Badge>
-                <h2 className="text-3xl font-bold text-gray-800">
-                  {currentLandmark.name}
-                </h2>
-              </div>
-              <Badge className="text-lg px-4 py-2 bg-gradient-to-r from-yellow-400 to-orange-500">
-                <Icon name="Star" size={20} className="mr-2" />
-                {score}
+          <Card className="max-w-2xl w-full p-8 animate-fade-in border shadow-md">
+            <div className="flex justify-between items-center mb-6">
+              <Badge variant="secondary">
+                Вопрос {currentLandmarkIndex + 1}/{routeLandmarks.length}
+              </Badge>
+              <Badge variant="default">
+                <Icon name="Trophy" className="mr-2" size={16} />
+                {score} очков
               </Badge>
             </div>
 
-            <p className="text-xl mb-8 text-gray-700 font-medium">
+            <h3 className="text-2xl font-bold mb-6 text-foreground">
               {currentLandmark.question}
-            </p>
+            </h3>
 
             <div className="space-y-3 mb-6">
               {currentLandmark.answers.map((answer, index) => (
                 <button
                   key={index}
-                  onClick={() => selectedAnswer === null && checkAnswer(index)}
+                  onClick={() => checkAnswer(index)}
                   disabled={selectedAnswer !== null}
-                  className={`
-                    w-full p-4 rounded-lg text-left text-lg font-medium transition-all
-                    ${selectedAnswer === null 
-                      ? 'bg-gray-100 hover:bg-purple-100 hover:border-purple-300 border-2 border-transparent' 
+                  className={`w-full p-4 text-left rounded-xl border transition-all ${
+                    selectedAnswer === null
+                      ? 'bg-background hover:bg-muted hover:shadow-md'
                       : selectedAnswer === index
                       ? answeredCorrectly
-                        ? 'bg-green-100 border-2 border-green-500'
-                        : 'bg-red-100 border-2 border-red-500'
-                      : index === currentLandmark.correctAnswer
-                      ? 'bg-green-100 border-2 border-green-500'
-                      : 'bg-gray-100 opacity-50'
-                    }
-                  `}
+                        ? 'bg-foreground text-background border-foreground'
+                        : 'bg-muted text-foreground border-border'
+                      : index === currentLandmark.correctAnswer && selectedAnswer !== null
+                      ? 'bg-foreground text-background border-foreground'
+                      : 'bg-muted text-muted-foreground border-border'
+                  } ${selectedAnswer !== null ? 'cursor-not-allowed' : 'cursor-pointer'}`}
                 >
-                  {answer}
-                  {selectedAnswer === index && answeredCorrectly && (
-                    <span className="ml-2">✓</span>
-                  )}
-                  {selectedAnswer === index && !answeredCorrectly && (
-                    <span className="ml-2">✗</span>
-                  )}
+                  <div className="flex items-center gap-3">
+                    <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
+                      selectedAnswer === index
+                        ? answeredCorrectly
+                          ? 'border-background bg-background text-foreground'
+                          : 'border-border bg-border text-foreground'
+                        : index === currentLandmark.correctAnswer && selectedAnswer !== null
+                        ? 'border-background bg-background text-foreground'
+                        : 'border-border'
+                    }`}>
+                      {selectedAnswer !== null && (index === currentLandmark.correctAnswer || selectedAnswer === index) && (
+                        <Icon 
+                          name={index === currentLandmark.correctAnswer ? "Check" : "X"} 
+                          size={16} 
+                        />
+                      )}
+                    </div>
+                    <span className="font-medium">{answer}</span>
+                  </div>
                 </button>
               ))}
             </div>
 
-            <div className="flex gap-4 flex-wrap">
-              {!showHint && selectedAnswer === null && (
-                <Button 
-                  variant="outline"
-                  onClick={() => setShowHint(true)}
-                  className="gap-2"
-                >
-                  <Icon name="Lightbulb" size={20} />
-                  Подсказка
-                </Button>
-              )}
-              
-              {selectedAnswer !== null && (
-                <Button 
-                  onClick={nextLandmark}
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 gap-2"
-                >
-                  {currentLandmarkIndex < routeLandmarks.length - 1 ? (
-                    <>
-                      Далее
-                      <Icon name="ArrowRight" size={20} />
-                    </>
-                  ) : (
-                    <>
-                      Завершить
-                      <Icon name="Trophy" size={20} />
-                    </>
-                  )}
-                </Button>
-              )}
-            </div>
+            {selectedAnswer === null && (
+              <Button
+                variant="outline"
+                onClick={() => setShowHint(!showHint)}
+                className="w-full mb-4 border"
+              >
+                <Icon name="Lightbulb" className="mr-2" size={20} />
+                {showHint ? 'Скрыть подсказку' : 'Показать подсказку'}
+              </Button>
+            )}
 
-            {showHint && (
-              <Card className="mt-6 p-4 bg-yellow-50 border-yellow-200 animate-slide-up">
-                <div className="flex gap-3">
-                  <Icon name="Lightbulb" size={24} className="text-yellow-600 flex-shrink-0" />
-                  <p className="text-gray-700">{currentLandmark.hint}</p>
-                </div>
+            {showHint && selectedAnswer === null && (
+              <Card className="p-4 mb-4 bg-muted border">
+                <p className="text-sm text-muted-foreground">
+                  <Icon name="Info" className="inline mr-2" size={16} />
+                  {currentLandmark.hint}
+                </p>
               </Card>
             )}
 
             {selectedAnswer !== null && (
-              <Card className={`mt-6 p-4 animate-slide-up ${
-                answeredCorrectly ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'
-              }`}>
-                <p className="text-lg font-medium">
-                  {answeredCorrectly 
-                    ? '🎉 Правильно! +100 очков' 
-                    : '❌ Неправильно. Попробуй в следующий раз!'
-                  }
-                </p>
-              </Card>
+              <div className="space-y-4">
+                <Card className={`p-4 border ${
+                  answeredCorrectly ? 'bg-foreground text-background' : 'bg-muted'
+                }`}>
+                  <div className="flex items-center gap-3">
+                    <div className={`p-2 rounded-full ${
+                      answeredCorrectly ? 'bg-background text-foreground' : 'bg-background text-foreground'
+                    }`}>
+                      <Icon 
+                        name={answeredCorrectly ? "CheckCircle" : "XCircle"} 
+                        size={24}
+                      />
+                    </div>
+                    <div>
+                      <p className="font-bold text-lg">
+                        {answeredCorrectly ? 'Правильно!' : 'Неправильно'}
+                      </p>
+                      <p className={answeredCorrectly ? 'text-background/80' : 'text-muted-foreground'}>
+                        {answeredCorrectly ? '+100 очков' : 'Попробуй в следующий раз'}
+                      </p>
+                    </div>
+                  </div>
+                </Card>
+
+                <Button 
+                  onClick={nextLandmark}
+                  size="lg"
+                  className="w-full bg-foreground text-background hover:bg-foreground/90 shadow-sm"
+                >
+                  {currentLandmarkIndex < routeLandmarks.length - 1 ? (
+                    <>
+                      <Icon name="ArrowRight" className="mr-2" size={20} />
+                      Следующая точка
+                    </>
+                  ) : (
+                    <>
+                      <Icon name="Flag" className="mr-2" size={20} />
+                      Завершить маршрут
+                    </>
+                  )}
+                </Button>
+              </div>
             )}
           </Card>
         </div>
@@ -438,40 +459,51 @@ export default function Index() {
 
       {screen === 'finish' && (
         <div className="min-h-screen flex items-center justify-center p-4">
-          <Card className="max-w-2xl w-full p-12 text-center animate-scale-in">
-            <div className="text-6xl mb-6">🏆</div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text text-transparent">
-              Поздравляем!
-            </h2>
-            <p className="text-2xl mb-6 text-gray-700">
-              Ты прошёл маршрут Жлобина!
-            </p>
-            
-            <div className="bg-gradient-to-r from-yellow-400 to-orange-500 rounded-2xl p-8 mb-8">
-              <p className="text-white text-lg mb-2">Твой результат:</p>
-              <p className="text-6xl font-bold text-white mb-2">{score}</p>
-              <p className="text-white text-lg">очков</p>
+          <Card className="max-w-2xl w-full p-8 md:p-12 text-center animate-fade-in border shadow-md">
+            <div className="mb-6">
+              <div className="inline-block p-6 bg-muted rounded-3xl mb-4 border">
+                <Icon name="Trophy" size={80} className="text-foreground" />
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+                Маршрут пройден!
+              </h2>
+              <p className="text-xl text-muted-foreground">
+                {routes.find(r => r.id === selectedRoute)?.name}
+              </p>
             </div>
 
-            <Badge className="text-2xl px-6 py-3 mb-8 bg-gradient-to-r from-purple-600 to-pink-600 text-white">
-              {score >= 500 ? '🌟 Знаток Жлобина' : score >= 300 ? '⭐ Исследователь' : '✨ Новичок'}
-            </Badge>
+            <Card className="p-6 mb-8 bg-muted border">
+              <div className="flex justify-around items-center">
+                <div>
+                  <p className="text-muted-foreground mb-1">Твой результат</p>
+                  <p className="text-4xl font-bold text-foreground">{score}</p>
+                  <p className="text-sm text-muted-foreground">очков</p>
+                </div>
+                <div className="h-16 w-px bg-border"></div>
+                <div>
+                  <p className="text-muted-foreground mb-1">Пройдено точек</p>
+                  <p className="text-4xl font-bold text-foreground">{routeLandmarks.length}</p>
+                  <p className="text-sm text-muted-foreground">из {routeLandmarks.length}</p>
+                </div>
+              </div>
+            </Card>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="space-y-3">
               <Button 
                 onClick={restartGame}
                 size="lg"
-                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                className="w-full bg-foreground text-background hover:bg-foreground/90 shadow-sm"
               >
-                <Icon name="RotateCcw" className="mr-2" />
+                <Icon name="RotateCcw" className="mr-2" size={20} />
                 Играть снова
               </Button>
               <Button 
                 onClick={() => setScreen('route-select')}
-                size="lg"
                 variant="outline"
+                size="lg"
+                className="w-full border"
               >
-                <Icon name="Map" className="mr-2" />
+                <Icon name="Map" className="mr-2" size={20} />
                 Выбрать другой маршрут
               </Button>
             </div>
